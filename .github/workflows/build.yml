@@ -1,0 +1,40 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOTNET_VERSION: '6.0.x'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET Core SDK ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build solution
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish application
+      run: dotnet publish --configuration Release --no-build --output publish
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Chief
+        path: publish/
