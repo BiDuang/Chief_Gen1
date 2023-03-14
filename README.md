@@ -6,6 +6,7 @@
 <h3>Friendship Studio 2023</h3>
 </div>
 
+[![Build and Publish](https://github.com/BiDuang/Chief/actions/workflows/build.yml/badge.svg)](https://github.com/BiDuang/Chief/actions/workflows/build.yml)
 ## Feature
 
 Provide visual and non-console installation and upgrades experience of [Woolang](https://git.cinogama.net/cinogamaproject/woolang) or [BaoZi](https://git.cinogama.net/cinogamaproject/woolangpackages/baozi).
