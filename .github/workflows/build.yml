@@ -31,7 +31,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish application
-      run: dotnet publish --configuration Release --no-build --output publish -p:PublishProfile=ChiefBuild.pubxml
+      run: dotnet publish --configuration Release --no-build --output publish -p:PublishReadyToRun=true -p:PublishSingleFile=true
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
