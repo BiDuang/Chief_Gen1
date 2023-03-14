@@ -178,7 +178,7 @@ namespace Chief.Views
             try
             {
                 string woolangDir = Core.SystemInfo.GetWoolangDir();
-                DownloadLatestBuild(woolangDir);
+                DownloadLatestBuild(woolangDir).Start();
                 InstallSettings.Visibility = Visibility.Hidden;
                 InstallingPanel.Visibility = Visibility.Visible;
             }

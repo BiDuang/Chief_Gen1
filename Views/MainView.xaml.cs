@@ -29,10 +29,10 @@ namespace Chief.Views
         {
             ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.isLightTheme() ? "Light.Blue" : "Dark.Blue");
             InitializeComponent();
-            getReleaseList();
+            GetReleaseList().Start();
         }
 
-        private async Task getReleaseList()
+        private async Task GetReleaseList()
         {
             List<Models.Core.CommitInfo> revCommits = await Requests.GetReleaseInfo();
             List<View.TinyCommitInfo> tinyCommits = revCommits.Select(revCommit => new View.TinyCommitInfo() { Version = revCommit.Version }).ToList();
@@ -66,15 +66,14 @@ namespace Chief.Views
             var contentControl = window.FindName("ContentControl") as ContentControl;
             DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
             DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (sender, args) =>
+            fadeOut.Completed += (_, args) =>
             {
-                contentControl.Content = new Frame()
                 {
-                    Content = new ReleaseView()
+                    Content = new ReleaseView();
                 };
-                contentControl.BeginAnimation(OpacityProperty, fadeIn);
+                contentControl!.BeginAnimation(OpacityProperty, fadeIn);
             };
-            contentControl.BeginAnimation(OpacityProperty, fadeOut);
+            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
         }
     }
 }

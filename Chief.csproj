@@ -6,12 +6,18 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <UserSecretsId>c4556f42-817f-4902-a2d6-a3b639b283c7</UserSecretsId>
+    <SignAssembly>False</SignAssembly>
+    <ApplicationIcon>Views\Resources\Icos\woolang_logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Views\Resources\Images\placeholder_3.png" />
     <None Remove="Views\Resources\Images\woolang.png" />
     <None Remove="Views\Resources\Images\woolang_logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Resources\Icos\woolang_logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
