@@ -1,0 +1,21 @@
+﻿<mah:MetroWindow x:Class="Chief.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 mc:Ignorable="d" WindowStyle="None" Height="300" Width="550"
+                 Background="#1E1E1E" BorderThickness="1"
+                 GlowBrush="{DynamicResource MahApps.Brushes.Accent3}"
+                 ShowTitleBar="False" ShowCloseButton="False"
+                 ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" 
+                 WindowTransitionsEnabled="False" Topmost="True">
+    <Grid>
+        <Image Source="/Views/Resources/Images/woolang_logo.png" Name="Logo" Visibility="Visible"/>
+        <Grid Name="LoadingInfo" Opacity="0">
+            <Label Content="欢迎使用 Chief" Foreground="AliceBlue" Width="150" Height="50" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,170"/>
+            <Label Content="(C) Friendship Studio 2023" Foreground="AliceBlue" Width="190" Height="50" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,120"/>
+            <mah:ProgressRing  Foreground="{DynamicResource MahApps.Brushes.Accent}" VerticalAlignment="Bottom" Margin="0,0,0,50"/>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

@@ -1,0 +1,75 @@
+﻿<Page x:Class="Chief.Views.MainView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid Width="700" Height="350" >
+            <Label Content="欢迎，嗝。" FontSize="18" FontWeight="Bold" />
+            <controls:FlipView x:Name="IndexFlips"
+                          Height="151"
+                          Width="460"
+                          Margin="0 35 0 0"
+                          Foreground="{DynamicResource MahApps.Brushes.ThemeBackground}"
+                          SelectionChanged="FlipView_SelectionChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.7">
+                <controls:FlipView.Items>
+                    <Grid>
+                        <Grid.Background>
+                            <ImageBrush ImageSource="/Views/Resources/Images/woolang.png"></ImageBrush>
+                        </Grid.Background>
+                    </Grid>
+                    <Grid>
+                        <Grid.Background>
+                            <ImageBrush ImageSource="/Views/Resources/Images/placeholder_3.png"></ImageBrush>
+                        </Grid.Background>
+                    </Grid>
+                </controls:FlipView.Items>
+            </controls:FlipView>
+            <mah:Tile Title="更新 Woolang" 
+                           x:Name="RevChannel"
+                           Margin="0,210,0,0"
+                           mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                           Background="#3399ff"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top" VerticalTitleAlignment="Bottom" Width="140" Height="120" Opacity="0.9" Click="RevChannel_Click">
+                <iconPacks:PackIconFontAwesome Width="40"
+                                               Height="40"
+                                               Kind="TasksSolid" />
+            </mah:Tile>
+            <mah:Tile Title="Woolang 文档" 
+                      x:Name="CommitChannel"
+                      Margin="160,210,0,0"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      Background="#F0A01A"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top" VerticalTitleAlignment="Bottom" Width="140" Height="120" Opacity="0.9">
+                <iconPacks:PackIconFontAwesome Width="40"
+                                               Height="40"
+                                               Kind="BookSolid" />
+            </mah:Tile>
+            <mah:Tile Title="包子管理器" 
+                      x:Name="BaoZi"
+                      Margin="320,210,0,0"
+                      mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                      Background="#F03284"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top" VerticalTitleAlignment="Bottom" Width="140" Height="120" Opacity="0.9">
+                <iconPacks:PackIconFontAwesome Width="40"
+                                               Height="40"
+                                               Kind="BoxOpenSolid" />
+            </mah:Tile>
+            <DataGrid x:Name="RevList" CanUserReorderColumns="False"
+                Width="200" Margin="475,35,25,20" CanUserResizeColumns="False" CanUserSortColumns="False"
+                Style="{StaticResource MahApps.Styles.DataGrid.Azure}" HorizontalScrollBarVisibility="Hidden"
+                mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}" IsReadOnly="True">
+            </DataGrid>
+            <mah:ProgressRing Margin="475,35,25,20" x:Name="RevLoading" />
+        </Grid>
+    </Grid>
+</Page>
