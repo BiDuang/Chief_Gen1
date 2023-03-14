@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <UserSecretsId>c4556f42-817f-4902-a2d6-a3b639b283c7</UserSecretsId>
     <SignAssembly>False</SignAssembly>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <ApplicationIcon>Views\Resources\Icos\woolang_logo.ico</ApplicationIcon>
   </PropertyGroup>
 
