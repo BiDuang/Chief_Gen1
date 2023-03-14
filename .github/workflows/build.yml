@@ -16,7 +16,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup .NET Core SDK 6
+    - name: Setup .NET Core SDK ${{ env.DOTNET_VERSION }}
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
@@ -31,7 +31,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish application
-      run: dotnet publish --configuration Release --no-build --output publish -p:PublishProfile=ChiefBuild
+      run: dotnet publish --configuration Release --no-build --output publish
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
