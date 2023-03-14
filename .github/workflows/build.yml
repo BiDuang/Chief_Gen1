@@ -24,14 +24,8 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build solution
-      run: dotnet build --configuration Release --no-restore
-
     - name: Publish application
-      run: dotnet publish --configuration Release --no-build --output publish -p:PublishReadyToRun=true -p:PublishSingleFile=true
+      run: dotnet publish --configuration Release --output publish -p:PublishReadyToRun=true -p:PublishSingleFile=true
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
