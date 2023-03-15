@@ -10,18 +10,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ControlzEx.Theming;
 using Downloader;
 using ICSharpCode.SharpZipLib.Zip;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
+using Button = System.Windows.Controls.Button;
 
 namespace Chief.Views
 {
@@ -30,24 +26,25 @@ namespace Chief.Views
     /// </summary>
     public partial class ReleaseView : Page
     {
-        public bool isWoolangInstalled = false;
+        public bool IsWoolangInstalled;
 
         public ReleaseView()
         {
-            isWoolangInstalled = Core.SystemInfo.IsWoolangInstalled();
-            ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.isLightTheme() ? "Light.Blue" : "Dark.Blue");
+            Task task = new Task(() => { IsWoolangInstalled = Core.SystemInfo.IsWoolangInstalled(); });
+            task.Start();
+            ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.IsLightTheme() ? "Light.Blue" : "Dark.Blue");
+            task.Wait();
             InitializeComponent();
             InitialSettings();
-
         }
 
         private void InitialSettings()
         {
-            WelcomeMessage.Content = isWoolangInstalled
+            WelcomeMessage.Content = IsWoolangInstalled
                 ? "您希望如何更新 Woolang 编译器？"
                 : "您希望如何安装 Woolang 编译器？";
-            UpdateButton.IsEnabled = isWoolangInstalled;
-            if (!isWoolangInstalled)
+            UpdateButton.IsEnabled = IsWoolangInstalled;
+            if (!IsWoolangInstalled)
             {
                 UpdateButtonGrid.ToolTip = "您尚未安装 Woolang 编译器、未正确设置环境变量\n或更改了编译器名称，因此选项不可用。";
             }
@@ -56,14 +53,14 @@ namespace Chief.Views
 
         public void OnDownloadCompleted(object? sender, AsyncCompletedEventArgs asyncCompletedEventArgs)
         {
-            Dispatcher.Invoke(() => { Title.Content = "正在安装 Woolang 编译器更新，请稍候..."; });
+            Dispatcher.Invoke(() => { TitleText.Content = "正在安装 Woolang 编译器更新，请稍候..."; });
         }
 
-        public async Task DownloadLatestBuild(string workingDir)
+        public async Task DownloadLatestBuild(string workingDir, bool isPathSetting = false)
         {
             if (workingDir == string.Empty || !Directory.Exists(workingDir))
             {
-                MessageBox.Show("指定的安装路径错误", "Chief");
+                System.Windows.MessageBox.Show("指定的安装路径错误", "Chief");
                 return;
             }
 
@@ -86,7 +83,7 @@ namespace Chief.Views
             }
             catch
             {
-                return;
+                throw new Exception("Failed to reach the update server!");
             }
 
             var resp = await response.Content.ReadAsStringAsync();
@@ -123,37 +120,44 @@ namespace Chief.Views
 
                 if (fileName != string.Empty)
                 {
-                    using (FileStream streamWriter = File.Create(workingDir + fileName))
+                    await using FileStream streamWriter = File.Create(workingDir + fileName);
+                    byte[] datBytes = new byte[2048];
+                    while (true)
                     {
-                        byte[] datBytes = new byte[2048];
-                        while (true)
+                        var size = s.Read(datBytes, 0, datBytes.Length);
+                        if (size > 0)
                         {
-                            var size = s.Read(datBytes, 0, datBytes.Length);
-                            if (size > 0)
-                            {
-                                streamWriter.Write(datBytes, 0, size);
-                            }
-                            else
-                            {
-                                break;
-                            }
+                            streamWriter.Write(datBytes, 0, size);
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
                 }
             }
+
+            if (isPathSetting)
+            {
+                var variable = "PATH";
+                var value = Environment.GetEnvironmentVariable(variable, EnvironmentVariableTarget.User);
+                value += ";" + workingDir[..^2];
+                Environment.SetEnvironmentVariable(variable, value, EnvironmentVariableTarget.User);
+            }
+
             var window = Window.GetWindow(this);
-            var contentControl = window.FindName("ContentControl") as ContentControl;
+            var contentControl = window!.FindName("ContentControl") as ContentControl;
             DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
             DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
             fadeOut.Completed += (sender, args) =>
             {
-                contentControl.Content = new Frame()
+                contentControl!.Content = new Frame()
                 {
                     Content = new InstallSuccess()
                 };
                 contentControl.BeginAnimation(OpacityProperty, fadeIn);
             };
-            contentControl.BeginAnimation(OpacityProperty, fadeOut);
+            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
         }
 
         private void ReturnIndex_Click(object sender, RoutedEventArgs e)
@@ -162,15 +166,15 @@ namespace Chief.Views
             var contentControl = window.FindName("ContentControl") as ContentControl;
             DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
             DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (sender, args) =>
+            fadeOut.Completed += (_, _) =>
             {
-                contentControl.Content = new Frame()
+                contentControl!.Content = new Frame()
                 {
                     Content = new MainView()
                 };
                 contentControl.BeginAnimation(OpacityProperty, fadeIn);
             };
-            contentControl.BeginAnimation(OpacityProperty, fadeOut);
+            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
         }
 
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
@@ -178,19 +182,45 @@ namespace Chief.Views
             try
             {
                 string woolangDir = Core.SystemInfo.GetWoolangDir();
-                DownloadLatestBuild(woolangDir).Start();
+                DownloadLatestBuild(woolangDir);
                 InstallSettings.Visibility = Visibility.Hidden;
                 InstallingPanel.Visibility = Visibility.Visible;
             }
             catch
             {
-                MessageBox.Show("尝试更新 Woolang 编译器时出错。\n如果此问题持续出现，请联系技术人员。", "Chief Error");
+                System.Windows.MessageBox.Show("尝试更新 Woolang 编译器时出错。\n如果此问题持续出现，请联系技术人员。", "Chief Error");
             }
         }
 
         private void InstallButton_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var senderName = (sender as Button)?.Name;
+
+            var dialog = new FolderBrowserDialog()
+            {
+                ShowNewFolderButton = true,
+                AutoUpgradeEnabled = true
+            };
+            string selectedPath;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                selectedPath = dialog.SelectedPath;
+            }
+            else
+            {
+                return;
+            }
+            try
+            {
+                DownloadLatestBuild(selectedPath, senderName == "InstallButton");
+                InstallSettings.Visibility = Visibility.Hidden;
+                InstallingPanel.Visibility = Visibility.Visible;
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("尝试更新 Woolang 编译器时出错。\n如果此问题持续出现，请联系技术人员。", "Chief Error");
+            }
         }
     }
 }

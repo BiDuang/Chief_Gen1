@@ -6,32 +6,38 @@
       xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ReleaseView">
+      d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
         <Grid Width="700" Height="350" x:Name="InstallSettings">
             <Label x:Name="WelcomeMessage" Content="测试" FontSize="24"/>
             <Grid x:Name="UpdateButtonGrid">
                 <Button Height="50" Width="700" Style="{DynamicResource MahApps.Styles.Button.MetroSquare}" x:Name="UpdateButton"
-                        mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
-                         HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,70,0,0" Click="UpdateButton_OnClick">
+                        HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,70,0,0" Click="UpdateButton_OnClick">
                     <Grid Width="700" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <iconPacks:PackIconFontAwesome Width="30"
                                                        Height="30"
                                                        Kind="ChevronRightSolid" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" />
-                        <Label Content="保留我的设定。在已安装的位置覆盖安装" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" FontFamily="Microsoft YaHei" FontWeight="Medium"/>
+                        <Label Content="保留我的设定，在已安装的位置覆盖旧的编译器" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" FontFamily="Microsoft YaHei" FontWeight="Medium"/>
                     </Grid>
                 </Button>
             </Grid>
             <Button Height="50" Width="700" Style="{DynamicResource MahApps.Styles.Button.MetroSquare}" x:Name="InstallButton"
-                    mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                     HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,140,0,0" Click="InstallButton_OnClick">
                 <Grid Width="700" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <iconPacks:PackIconFontAwesome Width="30"
                                                    Height="30"
                                                    Kind="ChevronRightSolid" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" />
-                    <Label Content="将 Woolang 安装在一个新的位置" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" FontFamily="Microsoft YaHei" FontWeight="Medium" />
+                    <Label Content="下载 Woolang 到指定目录并设置环境变量" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" FontFamily="Microsoft YaHei" FontWeight="Medium" />
+                </Grid>
+            </Button>
+            <Button Height="50" Width="700" Style="{DynamicResource MahApps.Styles.Button.MetroSquare}" x:Name="InstallWithoutPathButton"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,210,0,0" Click="InstallButton_OnClick">
+                <Grid Width="700" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <iconPacks:PackIconFontAwesome Width="30"
+                                                   Height="30"
+                                                   Kind="ChevronRightSolid" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" />
+                    <Label Content="仅下载 Woolang 编译器到指定目录" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" FontFamily="Microsoft YaHei" FontWeight="Medium" />
                 </Grid>
             </Button>
             <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#1E7AD6" FontSize="16" Click="ReturnIndex_Click"
@@ -40,7 +46,7 @@
             </Button>
         </Grid>
         <Grid Width="700" Height="350" x:Name="InstallingPanel" Visibility="Hidden">
-            <Label x:Name="Title" Content="正在获取 Woolang 编译器更新，请稍候..." FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,150"/>
+            <Label x:Name="TitleText" Content="正在获取 Woolang 编译器更新，请稍候..." FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,150"/>
             <mah:ProgressRing x:Name="ProgressRing" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Grid>

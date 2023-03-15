@@ -33,11 +33,11 @@ namespace Chief.Core
 
             return commits.Select(item => new Models.Core.CommitInfo()
             {
-                Version = (string)item["name"],
-                ID = (string)item["target"],
-                RelaeseMessage = (string)item["release"]["description"],
-                ReleaseDateTime = DateTime.Parse((string)item["commit"]["created_at"]),
-                Author = (string)item["commit"]["author_name"]
+                Version = (string)item["name"]!,
+                ID = (string)item["target"]!,
+                RelaeseMessage = (string)item["release"]!["description"]!,
+                ReleaseDateTime = DateTime.Parse((string)item["commit"]!["created_at"]!),
+                Author = (string)item["commit"]!["author_name"]!
             })
                 .ToList();
         }
@@ -48,43 +48,18 @@ namespace Chief.Core
         public static string GetSystemThemeColor()
         {
             RegistryKey themeReg =
-                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\DWM");
-            int themeColor = (int)themeReg.GetValue("ColorizationColor");
+                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\DWM")!;
+            int themeColor = (int)themeReg.GetValue("ColorizationColor")!;
 
             return themeColor.ToString("X")[2..];
         }
 
-        public static bool isLightTheme()
+        public static bool IsLightTheme()
         {
             RegistryKey themeReg =
-                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize")!;
 
-            return (int)themeReg.GetValue("AppsUseLightTheme") == 1;
-        }
-
-        public static bool IsGitInstalled()
-        {
-            var cmd = new ProcessStartInfo("git", "version")
-            {
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                UseShellExecute = false
-            };
-
-            var process = new Process()
-            {
-                StartInfo = cmd
-            };
-            try
-            {
-                process.Start();
-            }
-            catch
-            {
-                return false;
-            }
-
-            return process.StandardOutput.ReadToEnd().Trim().StartsWith("git version");
+            return (int)themeReg.GetValue("AppsUseLightTheme")! == 1;
         }
 
         public static bool IsWoolangInstalled()
@@ -129,7 +104,7 @@ namespace Chief.Core
 
             process.Start();
 
-            return process.StandardOutput.ReadToEnd().Trim().Replace("woodriver.exe", "");
+            return process.StandardOutput.ReadToEnd().Trim().Split("\r\n")[0].Replace("woodriver.exe", "");
         }
     }
 }

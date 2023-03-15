@@ -27,7 +27,7 @@ namespace Chief.Views
         Views.MainView mainView = new();
         public IndexWindow()
         {
-            ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.isLightTheme() ? "Light.Blue" : "Dark.Blue");
+            ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.IsLightTheme() ? "Light.Blue" : "Dark.Blue");
             InitializeComponent();
             ContentControl.Content = new Frame() { Content = mainView };
         }

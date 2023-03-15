@@ -25,7 +25,7 @@ Windows 10+
 
 ### Executable File
 
-Just click to start.
+Download the build(Workflow's artifacts), and click to start.
 
 ### Build From Source Code
 
@@ -49,6 +49,9 @@ These awesome packages or services make my job so much easier.
 [Woolang](https://git.cinogama.net/cinogamaproject/woolang) and [BaoZi](https://git.cinogama.net/cinogamaproject/woolangpackages/baozi)
 is a part of the [CinogamaProject](https://git.cinogama.net/cinogamaproject).
 
+## WorkFlow
+
+This project have enabled the [workflow](https://github.com/BiDuang/Chief/actions).
 
 ## License
 

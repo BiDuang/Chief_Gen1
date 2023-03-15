@@ -1,4 +1,4 @@
-﻿<Page x:Class="Chief.Views.InstallSuccess"
+﻿<Page x:Class="Chief.Views.InstallBaoZiSuccess"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,7 +11,7 @@
 
     <Grid>
         <Grid Width="700" Height="350">
-            <mah:Tile Title="Woolang 编译器已完成安装" TitleFontSize="24" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" IsEnabled="False"
+            <mah:Tile Title="包子 管理器已完成安装" TitleFontSize="24" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" IsEnabled="False"
                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,0,0,0" Width="320" Height="350" Background="#000626">
                 <iconPacks:PackIconFontAwesome Width="60"
                                                Height="60"
@@ -19,20 +19,14 @@
             </mah:Tile>
             <mah:Tile Title="接下来..." FontWeight="Bold" TitleFontSize="22" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" Background="#210D42"
                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,0,0,0" Width="320" Height="100" VerticalTitleAlignment="Center" IsEnabled="False"/>
-            <mah:Tile Title="阅读指南" TitleFontSize="16" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" Background="#0575BE"
-                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,120,0,0" Width="150" Height="105">
-                <iconPacks:PackIconFontAwesome Width="35"
-                                               Height="35"
-                                               Kind="InfoSolid" />
-            </mah:Tile>
-            <mah:Tile Title="安装包子管理器" TitleFontSize="16" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" Background="#019FDC"
-                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="530,120,0,0" Width="150" Height="105" x:Name="InstallBaoZi" Click="InstallBaoZi_Click">
+            <mah:Tile Title="更新 Woolang" TitleFontSize="16" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" Background="#019FDC"
+                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,120,0,0" Width="320" Height="105" Click="UpgradeWoolang_Click" x:Name="UpgradeWoolang">
                 <iconPacks:PackIconFontAwesome Width="35"
                                                Height="35"
                                                Kind="BoxOpenSolid" />
             </mah:Tile>
             <mah:Tile Title="返回主页" TitleFontSize="18" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" Background="#39c5bb"
-                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,245,0,0" Width="320" Height="105" Click="Tile_Click">
+                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,245,0,0" Width="320" Height="105" x:Name="ReturnIndex" Click="ReturnIndex_Click">
                 <iconPacks:PackIconFontAwesome Width="35"
                                                Height="35"
                                                Kind="HouseUserSolid" />

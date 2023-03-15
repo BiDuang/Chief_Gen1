@@ -4,8 +4,8 @@ using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,9 +27,9 @@ namespace Chief.Views
     {
         public MainView()
         {
-            ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.isLightTheme() ? "Light.Blue" : "Dark.Blue");
+            ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.IsLightTheme() ? "Light.Blue" : "Dark.Blue");
             InitializeComponent();
-            GetReleaseList().Start();
+            GetReleaseList();
         }
 
         private async Task GetReleaseList()
@@ -63,13 +63,31 @@ namespace Chief.Views
         private void RevChannel_Click(object sender, RoutedEventArgs e)
         {
             var window = Window.GetWindow(this);
-            var contentControl = window.FindName("ContentControl") as ContentControl;
+            var contentControl = window!.FindName("ContentControl") as ContentControl;
             DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
             DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (_, args) =>
+            fadeOut.Completed += (_, _) =>
             {
+                contentControl!.Content = new Frame()
                 {
-                    Content = new ReleaseView();
+                    Content = new ReleaseView()
+                };
+                contentControl!.BeginAnimation(OpacityProperty, fadeIn);
+            };
+            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+        }
+
+        private void BaoZi_Click(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            var contentControl = window!.FindName("ContentControl") as ContentControl;
+            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
+            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
+            fadeOut.Completed += (_, _) =>
+            {
+                contentControl!.Content = new Frame()
+                {
+                    Content = new BaoZiInstall()
                 };
                 contentControl!.BeginAnimation(OpacityProperty, fadeIn);
             };

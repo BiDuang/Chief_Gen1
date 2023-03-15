@@ -59,7 +59,7 @@
                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                       Background="#F03284"
                       HorizontalAlignment="Left"
-                      VerticalAlignment="Top" VerticalTitleAlignment="Bottom" Width="140" Height="120" Opacity="0.9">
+                      VerticalAlignment="Top" VerticalTitleAlignment="Bottom" Width="140" Height="120" Opacity="0.9" Click="BaoZi_Click">
                 <iconPacks:PackIconFontAwesome Width="40"
                                                Height="40"
                                                Kind="BoxOpenSolid" />

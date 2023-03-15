@@ -9,6 +9,7 @@
     <SignAssembly>False</SignAssembly>
     <TargetFramework>net6.0-windows</TargetFramework>
     <ApplicationIcon>Views\Resources\Icos\woolang_logo.ico</ApplicationIcon>
+    <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Downloader" Version="3.0.4" />
+    <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
@@ -40,6 +42,12 @@
     <Resource Include="Views\Resources\Images\woolang_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\InstallBaoZiSuccess.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

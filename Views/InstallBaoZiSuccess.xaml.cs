@@ -20,15 +20,15 @@ namespace Chief.Views
     /// <summary>
     /// InstallSuccess.xaml 的交互逻辑
     /// </summary>
-    public partial class InstallSuccess : Page
+    public partial class InstallBaoZiSuccess : Page
     {
-        public InstallSuccess()
+        public InstallBaoZiSuccess()
         {
             ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.IsLightTheme() ? "Light.Blue" : "Dark.Blue");
             InitializeComponent();
         }
 
-        private void Tile_Click(object sender, RoutedEventArgs e)
+        private void ReturnIndex_Click(object sender, RoutedEventArgs e)
         {
             var window = Window.GetWindow(this);
             var contentControl = window!.FindName("ContentControl") as ContentControl;
@@ -45,7 +45,7 @@ namespace Chief.Views
             contentControl!.BeginAnimation(OpacityProperty, fadeOut);
         }
 
-        private void InstallBaoZi_Click(object sender, RoutedEventArgs e)
+        private void UpgradeWoolang_Click(object sender, RoutedEventArgs e)
         {
             var window = Window.GetWindow(this);
             var contentControl = window!.FindName("ContentControl") as ContentControl;
@@ -55,7 +55,7 @@ namespace Chief.Views
             {
                 contentControl!.Content = new Frame()
                 {
-                    Content = new BaoZiInstall()
+                    Content = new MainView()
                 };
                 contentControl.BeginAnimation(OpacityProperty, fadeIn);
             };
