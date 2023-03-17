@@ -205,7 +205,7 @@ namespace Chief.Views
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                selectedPath = dialog.SelectedPath;
+                selectedPath = dialog.SelectedPath + "\\";
             }
             else
             {

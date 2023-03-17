@@ -9,17 +9,17 @@
 [![Build and Publish](https://github.com/BiDuang/Chief/actions/workflows/build.yml/badge.svg)](https://github.com/BiDuang/Chief/actions/workflows/build.yml)
 ## Feature
 
-Provide visual and non-console installation and upgrades experience of [Woolang](https://git.cinogama.net/cinogamaproject/woolang) or [BaoZi](https://git.cinogama.net/cinogamaproject/woolangpackages/baozi).
+Provide visual and non-console installation and upgrades experience of [Woolang](https://git.cinogama.net/cinogamaproject/woolang) and [BaoZi](https://git.cinogama.net/cinogamaproject/woolangpackages/baozi).
 
 Provides changes between versions. (Based on developers' commit messages)
 
-.NET Core 6.0 and Metro style.
+A .NET Core 6.0 and Metro style WPF application.
 
 ## Working Environment
 
 Windows 10+
 
-**Installation of BaoZi requires you to have git and C++ Compiler (MSVC, GCC, etc.).**
+**Installation of BaoZi requires you to have Visual Studio 2019(or later) with MSBuild.**
 
 ## Usage
 
@@ -34,7 +34,7 @@ Open the `Chief.sln` or `Chief.csproj` and build this project.
 
 ## Acknowledgments
 
-These awesome packages or services make my job so much easier.
+These awesome packages or services make my job so much easier, thanks!
 
 [MahApps.Metro](https://github.com/MahApps/MahApps.Metro)
 

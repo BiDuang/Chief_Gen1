@@ -55,7 +55,7 @@ namespace Chief.Views
             {
                 contentControl!.Content = new Frame()
                 {
-                    Content = new MainView()
+                    Content = new ReleaseView()
                 };
                 contentControl.BeginAnimation(OpacityProperty, fadeIn);
             };
