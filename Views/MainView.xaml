@@ -4,21 +4,35 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
+
     <Grid>
+        <mah:FlyoutsControl Panel.ZIndex="2">
+            <mah:Flyout x:Name="SettingsFlyOut" Header="设置" Position="Right" Width="280" >
+                <mah:ToggleSwitch Header="页面切换动画" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                  OffContent="禁用" Margin="30,30,0,0"  
+                OnContent="启用" x:Name="AnimationSwitch"
+                                  Toggled="AnimationSettings_OnToggled" />
+            </mah:Flyout>
+        </mah:FlyoutsControl>
+        <Button Width="40" Height="40" Style="{DynamicResource MahApps.Styles.Button.Circle}" 
+                VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,30,30,0" Click="Settings_Click" Panel.ZIndex="1" >
+            <iconPacks:PackIconFontAwesome Width="20"
+                                           Height="20"
+                                           Kind="CogSolid"/>
+        </Button>
         <Grid Width="700" Height="350" >
             <Label Content="欢迎，嗝。" FontSize="18" FontWeight="Bold" />
-            <controls:FlipView x:Name="IndexFlips"
+            <mah:FlipView x:Name="IndexFlips"
                           Height="151"
                           Width="460"
                           Margin="0 35 0 0"
                           Foreground="{DynamicResource MahApps.Brushes.ThemeBackground}"
                           SelectionChanged="FlipView_SelectionChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.7">
-                <controls:FlipView.Items>
+                <mah:FlipView.Items>
                     <Grid>
                         <Grid.Background>
                             <ImageBrush ImageSource="/Views/Resources/Images/woolang.png"></ImageBrush>
@@ -29,8 +43,8 @@
                             <ImageBrush ImageSource="/Views/Resources/Images/placeholder_3.png"></ImageBrush>
                         </Grid.Background>
                     </Grid>
-                </controls:FlipView.Items>
-            </controls:FlipView>
+                </mah:FlipView.Items>
+            </mah:FlipView>
             <mah:Tile Title="更新 Woolang" 
                            x:Name="RevChannel"
                            Margin="0,210,0,0"
@@ -43,12 +57,12 @@
                                                Kind="TasksSolid" />
             </mah:Tile>
             <mah:Tile Title="Woolang 文档" 
-                      x:Name="CommitChannel"
+                      x:Name="ReadTheDocs"
                       Margin="160,210,0,0"
                       mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}"
                       Background="#F0A01A"
                       HorizontalAlignment="Left"
-                      VerticalAlignment="Top" VerticalTitleAlignment="Bottom" Width="140" Height="120" Opacity="0.9">
+                      VerticalAlignment="Top" VerticalTitleAlignment="Bottom" Width="140" Height="120" Opacity="0.9" Click="ReadTheDocs_Click" >
                 <iconPacks:PackIconFontAwesome Width="40"
                                                Height="40"
                                                Kind="BookSolid" />
@@ -64,12 +78,18 @@
                                                Height="40"
                                                Kind="BoxOpenSolid" />
             </mah:Tile>
-            <DataGrid x:Name="RevList" CanUserReorderColumns="False"
-                Width="200" Margin="475,35,25,20" CanUserResizeColumns="False" CanUserSortColumns="False"
+            <DataGrid x:Name="RevList" CanUserReorderColumns="False" ColumnWidth="190"
+                      Width="200" Margin="475,35,25,20" CanUserResizeColumns="False" CanUserSortColumns="False"
                 Style="{StaticResource MahApps.Styles.DataGrid.Azure}" HorizontalScrollBarVisibility="Hidden"
                 mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.ThemeForeground}" IsReadOnly="True">
             </DataGrid>
             <mah:ProgressRing Margin="475,35,25,20" x:Name="RevLoading" />
+            <Grid x:Name="VersionListAlert" Margin="475,35,25,20" Width="200" Height="295" Visibility="Hidden" Background="#3F000000">
+                <iconPacks:PackIconFontAwesome  Width="40"
+                                                Height="40"
+                                                Kind="UnlinkSolid" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,50" />
+                <Label Content="尝试获取版本列表时出错..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

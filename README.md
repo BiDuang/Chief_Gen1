@@ -49,6 +49,7 @@ These awesome packages or services make my job so much easier, thanks!
 [Woolang](https://git.cinogama.net/cinogamaproject/woolang) and [BaoZi](https://git.cinogama.net/cinogamaproject/woolangpackages/baozi)
 is a part of the [CinogamaProject](https://git.cinogama.net/cinogamaproject).
 
+@AsakiRain issued a animation problem.
 ## WorkFlow
 
 This project have enabled the [workflow](https://github.com/BiDuang/Chief/actions).

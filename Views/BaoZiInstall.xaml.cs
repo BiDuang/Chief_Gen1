@@ -1,22 +1,10 @@
 ﻿using Chief.Core;
-using Chief.Models;
 using ControlzEx.Theming;
-using MahApps.Metro.Controls;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.IO;
 using LibGit2Sharp;
@@ -149,7 +137,7 @@ namespace Chief.Views
             }
             else
             {
-                string vswherePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                string vswherePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
                     "Microsoft Visual Studio", "Installer", "vswhere.exe");
                 if (!File.Exists(vswherePath))
                 {
@@ -204,19 +192,8 @@ namespace Chief.Views
 
         private void ReturnIndex()
         {
-            var window = Window.GetWindow(this);
-            var contentControl = window!.FindName("ContentControl") as ContentControl;
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (_, _) =>
-            {
-                contentControl!.Content = new Frame()
-                {
-                    Content = new MainView()
-                };
-                contentControl.BeginAnimation(OpacityProperty, fadeIn);
-            };
-            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+            var animation = new AnimationControl();
+            animation.FadeSwitch(this, new MainView());
         }
 
         private async void InstallButton_OnClick(object sender, RoutedEventArgs e)
@@ -233,19 +210,8 @@ namespace Chief.Views
             installTask.Start();
             if (await installTask)
             {
-                var window = Window.GetWindow(this);
-                var contentControl = window!.FindName("ContentControl") as ContentControl;
-                DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-                DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-                fadeOut.Completed += (_, _) =>
-                {
-                    contentControl!.Content = new Frame()
-                    {
-                        Content = new InstallBaoZiSuccess()
-                    };
-                    contentControl.BeginAnimation(OpacityProperty, fadeIn);
-                };
-                contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+                var animation = new AnimationControl();
+                animation.FadeSwitch(this, new InstallBaoZiSuccess());
                 return;
             }
             ReturnIndex();
@@ -253,19 +219,7 @@ namespace Chief.Views
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            var contentControl = window.FindName("ContentControl") as ContentControl;
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (_, _) =>
-            {
-                contentControl!.Content = new Frame()
-                {
-                    Content = new MainView()
-                };
-                contentControl.BeginAnimation(OpacityProperty, fadeIn);
-            };
-            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+            ReturnIndex();
         }
     }
 }

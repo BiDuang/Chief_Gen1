@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
+using Chief.Core;
 using MahApps.Metro.Controls;
 
 namespace Chief
@@ -18,6 +17,7 @@ namespace Chief
         public MainWindow()
         {
             InitializeComponent();
+            ChiefConfigs.InitConfig();
             DoubleAnimation fadeOut = new DoubleAnimation(1, 0, new Duration(System.TimeSpan.FromSeconds(1)))
             {
                 BeginTime = System.TimeSpan.FromMilliseconds(1000)

@@ -1,4 +1,5 @@
-﻿using ControlzEx.Theming;
+﻿using Chief.Core;
+using ControlzEx.Theming;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,36 +31,14 @@ namespace Chief.Views
 
         private void ReturnIndex_Click(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            var contentControl = window!.FindName("ContentControl") as ContentControl;
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (_, _) =>
-            {
-                contentControl!.Content = new Frame()
-                {
-                    Content = new MainView()
-                };
-                contentControl.BeginAnimation(OpacityProperty, fadeIn);
-            };
-            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+            var animation = new AnimationControl();
+            animation.FadeSwitch(this, new MainView());
         }
 
         private void UpgradeWoolang_Click(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            var contentControl = window!.FindName("ContentControl") as ContentControl;
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (_, _) =>
-            {
-                contentControl!.Content = new Frame()
-                {
-                    Content = new ReleaseView()
-                };
-                contentControl.BeginAnimation(OpacityProperty, fadeIn);
-            };
-            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+            var animation = new AnimationControl();
+            animation.FadeSwitch(this, new ReleaseView());
         }
     }
 }

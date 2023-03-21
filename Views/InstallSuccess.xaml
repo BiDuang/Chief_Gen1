@@ -20,7 +20,7 @@
             <mah:Tile Title="接下来..." FontWeight="Bold" TitleFontSize="22" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" Background="#210D42"
                       HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,0,0,0" Width="320" Height="100" VerticalTitleAlignment="Center" IsEnabled="False"/>
             <mah:Tile Title="阅读指南" TitleFontSize="16" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" Background="#0575BE"
-                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,120,0,0" Width="150" Height="105">
+                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,120,0,0" Width="150" Height="105" Click="ReadTheDocs_Click">
                 <iconPacks:PackIconFontAwesome Width="35"
                                                Height="35"
                                                Kind="InfoSolid" />
@@ -32,7 +32,7 @@
                                                Kind="BoxOpenSolid" />
             </mah:Tile>
             <mah:Tile Title="返回主页" TitleFontSize="18" Opacity="0.8" BorderBrush="{DynamicResource MahApps.Brushes.Accent3}" Background="#39c5bb"
-                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,245,0,0" Width="320" Height="105" Click="Tile_Click">
+                      HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,245,0,0" Width="320" Height="105" Click="Return_Click">
                 <iconPacks:PackIconFontAwesome Width="35"
                                                Height="35"
                                                Kind="HouseUserSolid" />

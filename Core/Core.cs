@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using Downloader;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using Microsoft.Win32;
-using Newtonsoft.Json;
+using MahApps.Metro.Controls;
+using Nett;
 using Newtonsoft.Json.Linq;
 
 namespace Chief.Core
@@ -21,15 +19,21 @@ namespace Chief.Core
 
         public static async Task<List<Models.Core.CommitInfo>> GetReleaseInfo()
         {
-            HttpClient client = new HttpClient();
-            var response = await client.GetAsync(new Uri("https://git.cinogama.net/api/v4/projects/68/repository/tags"));
+            var client = new HttpClient()
+            {
+                Timeout = TimeSpan.FromSeconds(6),
+            };
+
+            var response =
+                await client.GetAsync(new Uri("https://git.cinogama.net/api/v4/projects/68/repository/tags"));
             response.EnsureSuccessStatusCode();
+
             var resp = await response.Content.ReadAsStringAsync();
+
             var data = JArray.Parse(resp);
             var commits =
                 from item in data
                 select (JObject)item;
-            Models.Core.CommitInfo commitInfo = new();
 
             return commits.Select(item => new Models.Core.CommitInfo()
             {
@@ -105,6 +109,71 @@ namespace Chief.Core
             process.Start();
 
             return process.StandardOutput.ReadToEnd().Trim().Split("\r\n")[0].Replace("woodriver.exe", "");
+        }
+    }
+
+    public static class ChiefConfigs
+    {
+        public static bool AnimationEnable = true;
+        public static void InitConfig()
+        {
+            TomlTable configs;
+            try
+            {
+                configs = Toml.ReadFile("config.toml");
+            }
+            catch
+            {
+                const string initConfigs = @"
+                    [Animation]
+                    enable = true";
+                configs = Toml.ReadString(initConfigs);
+                Toml.WriteFile(configs, "config.toml");
+            }
+            AnimationEnable = configs.Get<TomlTable>("Animation")["enable"].Get<bool>();
+        }
+
+        public static void SaveConfig()
+        {
+            var configs = Toml.Create();
+            configs.Add("Animation", Toml.Create());
+            configs.Get<TomlTable>("Animation").Add("enable", AnimationEnable);
+            Toml.WriteFile(configs, "config.toml");
+        }
+    }
+
+    public class AnimationControl
+    {
+        public void FadeSwitch(Page nowPage, Page target, double fadeTime = 0.5)
+        {
+            foreach (var control in nowPage.FindChildren<Control>())
+            {
+                control.IsEnabled = false;
+            }
+
+            var window = Window.GetWindow(nowPage);
+            var contentControl = window!.FindName("ContentControl") as ContentControl;
+
+            if (!ChiefConfigs.AnimationEnable)
+            {
+                contentControl!.Content = new Frame()
+                {
+                    Content = target
+                };
+                return;
+            }
+
+            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(fadeTime));
+            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(fadeTime));
+            fadeOut.Completed += (_, _) =>
+            {
+                contentControl!.Content = new Frame()
+                {
+                    Content = target
+                };
+                contentControl!.BeginAnimation(UIElement.OpacityProperty, fadeIn);
+            };
+            contentControl!.BeginAnimation(UIElement.OpacityProperty, fadeOut);
         }
     }
 }

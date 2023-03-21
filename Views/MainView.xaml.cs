@@ -9,14 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Chief.Views
 {
@@ -29,17 +22,36 @@ namespace Chief.Views
         {
             ThemeManager.Current.ChangeTheme(this, Core.SystemInfo.IsLightTheme() ? "Light.Blue" : "Dark.Blue");
             InitializeComponent();
+            AnimationSwitch.IsOn = ChiefConfigs.AnimationEnable;
             GetReleaseList();
         }
 
         private async Task GetReleaseList()
         {
-            List<Models.Core.CommitInfo> revCommits = await Requests.GetReleaseInfo();
-            List<View.TinyCommitInfo> tinyCommits = revCommits.Select(revCommit => new View.TinyCommitInfo() { Version = revCommit.Version }).ToList();
+            List<Models.Core.CommitInfo> revCommits = new();
+            try
+            {
+                revCommits = await Requests.GetReleaseInfo();
+            }
+            catch
+            {
+                RevLoading.IsActive = false;
+                RevList.Visibility = Visibility.Hidden;
+                VersionListAlert.Visibility = Visibility.Visible;
+                return;
+            }
 
+            List<Models.Core.TinyCommitInfo> tinyCommits = revCommits.Select(revCommit => new Models.Core.TinyCommitInfo() { Version = revCommit.Version }).ToList();
+
+            RevLoading.IsActive = false;
             RevList.ItemsSource = tinyCommits;
-            RevList.Columns.First().Width = 190;
-            RevList.Columns.First().Header = "已发行版本";
+            RevList.Columns.Clear();
+            RevList.Columns.Add(new DataGridTextColumn()
+            {
+                Header = "Woolang 发行版本列表",
+                Binding = new System.Windows.Data.Binding("Version")
+            });
+
 
             DoubleAnimation fadeOut = new DoubleAnimation(1, 0, new Duration(System.TimeSpan.FromSeconds(1)));
             fadeOut.Completed += (sender, e) => { RevLoading.IsActive = false; };
@@ -62,36 +74,33 @@ namespace Chief.Views
 
         private void RevChannel_Click(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            var contentControl = window!.FindName("ContentControl") as ContentControl;
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (_, _) =>
-            {
-                contentControl!.Content = new Frame()
-                {
-                    Content = new ReleaseView()
-                };
-                contentControl!.BeginAnimation(OpacityProperty, fadeIn);
-            };
-            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+            var animation = new AnimationControl();
+            animation.FadeSwitch(this, new ReleaseView());
         }
 
         private void BaoZi_Click(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            var contentControl = window!.FindName("ContentControl") as ContentControl;
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (_, _) =>
+            var animation = new AnimationControl();
+            animation.FadeSwitch(this, new BaoZiInstall());
+        }
+
+        private void ReadTheDocs_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://git.cinogama.net/cinogamaproject/woolang/-/wikis/home")
             {
-                contentControl!.Content = new Frame()
-                {
-                    Content = new BaoZiInstall()
-                };
-                contentControl!.BeginAnimation(OpacityProperty, fadeIn);
-            };
-            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+                UseShellExecute = true
+            });
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsFlyOut.IsOpen = !SettingsFlyOut.IsOpen;
+        }
+
+        private void AnimationSettings_OnToggled(object sender, RoutedEventArgs e)
+        {
+            ChiefConfigs.AnimationEnable = AnimationSwitch.IsOn;
+            ChiefConfigs.SaveConfig();
         }
     }
 }

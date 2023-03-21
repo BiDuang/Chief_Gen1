@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chief.Models
 {
@@ -15,6 +11,11 @@ namespace Chief.Models
             public string RelaeseMessage { get; set; }
             public DateTime ReleaseDateTime { get; set; }
             public string Author { get; set; }
+        }
+
+        public class TinyCommitInfo
+        {
+            public string Version { get; set; }
         }
     }
 }

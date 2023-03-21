@@ -17,6 +17,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
+using Chief.Core;
 using Button = System.Windows.Controls.Button;
 
 namespace Chief.Views
@@ -145,36 +146,14 @@ namespace Chief.Views
                 Environment.SetEnvironmentVariable(variable, value, EnvironmentVariableTarget.User);
             }
 
-            var window = Window.GetWindow(this);
-            var contentControl = window!.FindName("ContentControl") as ContentControl;
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (sender, args) =>
-            {
-                contentControl!.Content = new Frame()
-                {
-                    Content = new InstallSuccess()
-                };
-                contentControl.BeginAnimation(OpacityProperty, fadeIn);
-            };
-            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+            var animation = new AnimationControl();
+            animation.FadeSwitch(this, new InstallSuccess());
         }
 
         private void ReturnIndex_Click(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            var contentControl = window.FindName("ContentControl") as ContentControl;
-            DoubleAnimation fadeOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
-            DoubleAnimation fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
-            fadeOut.Completed += (_, _) =>
-            {
-                contentControl!.Content = new Frame()
-                {
-                    Content = new MainView()
-                };
-                contentControl.BeginAnimation(OpacityProperty, fadeIn);
-            };
-            contentControl!.BeginAnimation(OpacityProperty, fadeOut);
+            var animation = new AnimationControl();
+            animation.FadeSwitch(this, new MainView());
         }
 
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
