@@ -180,6 +180,7 @@ namespace Chief.Views
                 msbuildPath = Path.Combine(installationPath, "Msbuild", "Current", "Bin");
             }
 
+            msbuildPath = msbuildPath.Replace(";", "");
             if (File.Exists(Path.Combine(msbuildPath, "MSBuild.exe")))
             {
                 const string variable = "MSBUILD";

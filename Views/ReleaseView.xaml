@@ -12,8 +12,8 @@
         <Grid Width="700" Height="350" x:Name="InstallSettings">
             <Label x:Name="WelcomeMessage" Content="测试" FontSize="24"/>
             <Grid x:Name="UpdateButtonGrid">
-                <Button Height="50" Width="700" Style="{DynamicResource MahApps.Styles.Button.MetroSquare}" x:Name="UpdateButton"
-                        HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,70,0,0" Click="UpdateButton_OnClick">
+                <Button Height="50" Width="700" Style="{DynamicResource MahApps.Styles.Button.MetroSquare}" x:Name="UpdateButton" MouseEnter="UpdateButton_OnMouseEnter"
+                        HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,70,0,0" Click="UpdateButton_OnClick" MouseLeave="UpdateButton_OnMouseLeave">
                     <Grid Width="700" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <iconPacks:PackIconFontAwesome Width="30"
                                                        Height="30"

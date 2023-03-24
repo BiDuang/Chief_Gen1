@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using Chief.Core;
 using Button = System.Windows.Controls.Button;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace Chief.Views
 {
@@ -65,16 +66,6 @@ namespace Chief.Views
                 return;
             }
 
-            if (File.Exists(workingDir + "woodriver.exe"))
-            {
-                File.Delete(workingDir + "woodriver.exe");
-            }
-
-            if (File.Exists(workingDir + "libwoo.dll"))
-            {
-                File.Delete(workingDir + "libwoo.dll");
-            }
-
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", "Bearer 7gz8QHnPyB_9HWtyjdfP");
             var response = await client.GetAsync(new Uri("https://git.cinogama.net/api/v4/projects/68/jobs"));
@@ -95,14 +86,25 @@ namespace Chief.Views
             string latestBuildId = "";
             foreach (var item in jobs)
             {
-                if ((string)item["name"] == "build_release_win32")
+                if (item["name"].ToString().Equals("build_release_win32"))
                 {
                     latestBuildId = (string)item["id"];
+                    break;
                 }
             }
 
+            if (File.Exists(workingDir + "woodriver.exe"))
+            {
+                File.Delete(workingDir + "woodriver.exe");
+            }
+
+            if (File.Exists(workingDir + "libwoo.dll"))
+            {
+                File.Delete(workingDir + "libwoo.dll");
+            }
+
             string latestBuildUrl = $"https://git.cinogama.net/cinogamaproject/woolang/-/jobs/{latestBuildId}/artifacts/download";
-            DirectoryInfo path = new DirectoryInfo(workingDir);
+
             var downloadOpt = new DownloadConfiguration()
             {
                 ChunkCount = 8,
@@ -116,7 +118,7 @@ namespace Chief.Views
             await using var s = new ZipInputStream(destinationStream);
             while (s.GetNextEntry() is { } theEntry)
             {
-                string fileName = System.IO.Path.GetFileName(theEntry.Name);
+                string fileName = Path.GetFileName(theEntry.Name);
 
 
                 if (fileName != string.Empty)
@@ -200,6 +202,21 @@ namespace Chief.Views
             {
                 System.Windows.MessageBox.Show("尝试更新 Woolang 编译器时出错。\n如果此问题持续出现，请联系技术人员。", "Chief Error");
             }
+        }
+
+        private void UpdateButton_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            WelcomeMessage.FontSize = 16;
+            WelcomeMessage.Content = "将会更新 " + Core.SystemInfo.GetWoolangDir() + " 中的 Woolang 编译器。";
+        }
+
+
+        private void UpdateButton_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            WelcomeMessage.FontSize = 24;
+            WelcomeMessage.Content = IsWoolangInstalled
+                ? "您希望如何更新 Woolang 编译器？"
+                : "您希望如何安装 Woolang 编译器？";
         }
     }
 }
