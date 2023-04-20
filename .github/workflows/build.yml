@@ -32,3 +32,4 @@ jobs:
       with:
         name: Chief
         path: publish/
+        retention-days: 90
